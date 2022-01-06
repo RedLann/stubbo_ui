@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:http/http.dart' as http;
+import 'package:stubbo_ui/editor/json_formatter.dart';
 
 part 'editor_bloc.g.dart';
 
 class EditorBloc extends Bloc<EditorEvent, EditorState> {
   EditorBloc() : super(const EditorState()) {
     on<Init>((event, emit) => init(event));
-    on<OnContentFetched>((event, emit) => emit(state.copyWith(filename: event.filename, code: event.code)));
+    on<OnContentFetched>((event, emit) {
+      final code = event.filename.endsWith(".json") ? JsonFormatUtil.formatJson(event.code) : event.code;
+      emit(state.copyWith(filename: event.filename, code: code));
+    });
   }
 
   init(Init event) async {
     try {
-      final response =
-      await http.get(Uri.parse("http://0.0.0.0:8080/anymock/${event.filename}"));
+      final response = await http.get(Uri.parse("http://0.0.0.0:8080/view/${event.filename}"));
       add(OnContentFetched(event.filename, response.body));
     } on Exception catch (e) {
       debugPrint(e.toString());
@@ -35,11 +38,13 @@ class EditorState extends Equatable {
 }
 
 class EditorEvent {}
+
 class Init extends EditorEvent {
   final String filename;
 
   Init(this.filename);
 }
+
 class OnContentFetched extends EditorEvent {
   final String filename;
   final String code;

@@ -52,7 +52,7 @@ class _StubCWProxy {
 }
 
 extension StubCopyWith on Stub {
-  /// CopyWith feature provided by `copy_with_extension_gen` library. Returns a callable class and can be used as follows: `instanceOfclass Stub.name.copyWith(...)`. Be aware that this kind of usage does not support nullification and all passed `null` values will be ignored. Prefer to copy the instance with a specific field change that handles nullification of fields correctly, e.g. like this:`instanceOfclass Stub.name.copyWith.fieldName(...)`
+  /// CopyWith feature provided by `copy_with_extension_gen` library. Returns a callable class and can be used as follows: `instanceOfclass Stub extends Equatable.name.copyWith(...)`. Be aware that this kind of usage does not support nullification and all passed `null` values will be ignored. Prefer to copy the instance with a specific field change that handles nullification of fields correctly, e.g. like this:`instanceOfclass Stub extends Equatable.name.copyWith.fieldName(...)`
   _StubCWProxy get copyWith => _StubCWProxy(this);
 
   Stub _copyWithNull({

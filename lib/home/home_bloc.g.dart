@@ -19,18 +19,22 @@ class _HomeStateCWProxy {
   /// HomeState(...).copyWith(id: 12, name: "My name")
   /// ````
   HomeState call({
+    List<Stub>? files,
     Stub? selectedDir,
-    Stub? tree,
+    Stub? selectedFile,
   }) {
     return HomeState(
+      files: files ?? _value.files,
       selectedDir: selectedDir ?? _value.selectedDir,
-      tree: tree ?? _value.tree,
+      selectedFile: selectedFile ?? _value.selectedFile,
     );
   }
 
+  HomeState files(List<Stub> files) => this(files: files);
+
   HomeState selectedDir(Stub selectedDir) => this(selectedDir: selectedDir);
 
-  HomeState tree(Stub tree) => this(tree: tree);
+  HomeState selectedFile(Stub selectedFile) => this(selectedFile: selectedFile);
 }
 
 extension HomeStateCopyWith on HomeState {

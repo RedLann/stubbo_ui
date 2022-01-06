@@ -1,7 +1,5 @@
-import 'package:code_editor/code_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../constants.dart';
 import 'editor_bloc.dart';
 
 class EditorPage extends StatefulWidget {
@@ -15,6 +13,7 @@ class EditorPage extends StatefulWidget {
 
 class _EditorPageState extends State<EditorPage> {
   final EditorBloc _editorBloc = EditorBloc();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +27,11 @@ class _EditorPageState extends State<EditorPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _editorBloc,
-      child: BlocBuilder<EditorBloc, EditorState>(
+      child: BlocConsumer<EditorBloc, EditorState>(
+        listenWhen: (previous, current) => previous.code.isEmpty && current.code.isNotEmpty,
+        listener: (context, state) {
+          _controller.text = state.code;
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -39,29 +42,7 @@ class _EditorPageState extends State<EditorPage> {
             ),
             body: Center(
               child: state.code.isNotEmpty
-                  ? CodeEditor(
-                      model: EditorModel(
-                        files: [
-                          FileEditor(
-                            name: state.filename,
-                            language: "json",
-                            code: state.code,
-                          )
-                        ],
-                        styleOptions: EditorModelStyleOptions(
-                          fontSize: 13,
-                          editorColor: Colors.white,
-                          theme: a11yLightTheme,
-                          heightOfContainer: 600,
-                        ),
-                      ),
-                      edit: true,
-                      disableNavigationbar: true,
-                      onSubmit: (String? language, String? value) {
-                        print("language = $language");
-                        print("value = '$value'");
-                      },
-                    )
+                  ? TextField(controller: _controller, maxLines: 1000000)
                   : const CircularProgressIndicator(),
             ),
           );

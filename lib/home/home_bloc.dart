@@ -11,87 +11,48 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final Repository repo = injector.get<Repository>();
 
   HomeBloc() : super(const HomeState()) {
-    // on<Init>((event, emit) => init());
-    // on<RefreshContent>((event, emit) {
-    //   // emit(const HomeState());
-    //   // return init();
-    // });
-    // on<OnContentFetched>((event, emit) {
-    //   emit(state.copyWith(tree: event.stub));
-    //   flatten(event.stub).then((value) {});
-    // });
-    // on<OnContentFlattened>((event, emit) {
-    //   // emit(state.copyWith(flatTree: event.flatStubs, flatDirs: event.flatDirs));
-    // });
-    on<StubSelected>((event, emit) async {
-      emit(state.copyWith(selectedDir: event.stub));
-      if (event.stub.children.isEmpty) {
-        final value = await repo.listAll(path: event.stub.path);
-        event.stub.children.clear();
-        event.stub.children.addAll(value.children);
-        emit(state.copyWith(selectedDir: event.stub));
-      }
+    on<DirectorySelected>((event, emit) async {
+      emit(state.copyWith(selectedDir: event.stub, files: event.stub.children));
     });
-    add(StubSelected(Stub.root([])));
+    on<FileSelected>((event, emit) async {
+      emit(state.copyWith(selectedFile: event.stub));
+    });
+    add(DirectorySelected(const Stub.root([])));
   }
-
-  // Future<List<StubUiModel>> flatten(Stub stub, {int lvl = 1}) async {
-  //   var level = lvl;
-  //   List<StubUiModel> flatStubs = [];
-  //   flatStubs.add(convert(stub, level));
-  //   if (stub.children.isNotEmpty) {
-  //     for (Stub s in stub.children) {
-  //       flatStubs.addAll(await flatten(s, lvl: level + 1));
-  //     }
-  //   }
-  //   return flatStubs;
-  // }
-
-  // StubUiModel convert(Stub stub, int level) {
-  //   return StubUiModel.from(stub, level);
-  // }
 
   init() async {}
 }
 
 @CopyWith()
 class HomeState extends Equatable {
-  final Stub tree;
   final Stub selectedDir;
+  final List<Stub> files;
+  final Stub selectedFile;
 
   const HomeState({
-    this.tree = const Stub.root([]),
     this.selectedDir = const Stub.root([]),
+    this.files = const [],
+    this.selectedFile = const Stub.root([]),
   });
 
   @override
-  List<Object?> get props => [tree, selectedDir];
+  List<Object?> get props => [selectedDir, selectedFile, files];
 }
 
 class HomeEvent {}
-
-class Init extends HomeEvent {
-  Init();
-}
 
 class RefreshContent extends HomeEvent {
   RefreshContent();
 }
 
-class StubSelected extends HomeEvent {
+class DirectorySelected extends HomeEvent {
   final Stub stub;
 
-  StubSelected(this.stub);
+  DirectorySelected(this.stub);
 }
 
-class OnContentFetched extends HomeEvent {
+class FileSelected extends HomeEvent {
   final Stub stub;
 
-  OnContentFetched(this.stub);
+  FileSelected(this.stub);
 }
-
-// class OnContentFlattened extends HomeEvent {
-//   final List<Stub> tree;
-//
-//   OnContentFlattened(this.tree);
-// }

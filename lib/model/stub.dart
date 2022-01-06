@@ -32,7 +32,7 @@ class Stub extends Equatable {
       required this.mimeType,
       required this.isDir,
       required this.children,
-      this.timestamp = 0});
+      required this.timestamp});
 
   const Stub.root(this.children)
       : name = "",
