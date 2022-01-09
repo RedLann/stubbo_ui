@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:stubbo_ui/constants.dart';
 import 'package:stubbo_ui/data/local_datasource.dart';
 import 'package:stubbo_ui/di/injection.dart';
+import 'package:stubbo_ui/home/home_bloc.dart';
 import 'package:stubbo_ui/model/stub.dart';
 
 class DataError extends Equatable implements Exception {
@@ -78,13 +79,17 @@ class Repository {
   //   }, encodeJson: true);
   // }
 
-  void refreshPath(String path) async {
+  Future<void> refreshPath(String path) async {
     final url = baseurl + "list/all/$path";
     final stub =
         await handleCall<Stub>(HttpMethod.GET, url, converter: (json) {
       return Stub.fromJson(json);
     }, encodeJson: true);
-    await ld.putStub(stub.copyWith(timestamp: Stub.currentTimeStamp()));
+    return await ld.putStub(stub.copyWith(timestamp: Stub.currentTimeStamp()));
+  }
+
+  Stub? getStub(String path) {
+    return ld.getStub(path);
   }
 
   ValueListenable<Box<Stub>> getListenable(String path) {
@@ -99,5 +104,15 @@ class Repository {
     return handleCall<Stub>(HttpMethod.GET, url, converter: (json) {
       return Stub.fromJson(json);
     }, encodeJson: true);
+  }
+
+  Future<void> upload(OnFileUpload data) async {
+    var request = http.MultipartRequest("POST", Uri.parse(baseurl + "upload"));
+    request.fields['filename'] = data.filename;
+    request.fields['mimeType'] = data.mimeType;
+    request.fields['parentPath'] = data.parentPath;
+    request.files.add(http.MultipartFile.fromBytes('file', data.bytes));
+    final response = await request.send();
+    if (response.statusCode == 200) print("Uploaded!");
   }
 }

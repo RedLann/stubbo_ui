@@ -22,10 +22,8 @@ class _FolderWidgetState extends State<FolderWidget> {
   @override
   void initState() {
     if (widget.path.isEmpty) {
-      setState(() {
-        collapsed = false;
-        initialized = true;
-      });
+      collapsed = false;
+      initialized = true;
     }
     super.initState();
   }
@@ -82,6 +80,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                         children: List.generate(
                             children.length,
                             (index) => FolderWidget(
+                                  key: ValueKey(children[index].path),
                                   path: children[index].path,
                                   onSelected: widget.onSelected,
                                 )),

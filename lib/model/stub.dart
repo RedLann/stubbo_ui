@@ -23,23 +23,27 @@ class Stub extends Equatable {
   @HiveField(5)
   @JsonKey(name: "timestamp", defaultValue: 0)
   final int timestamp;
+  final bool selected;
 
   static currentTimeStamp() => DateTime.now().millisecondsSinceEpoch;
 
-  Stub(
-      {required this.name,
-      required this.path,
-      required this.mimeType,
-      required this.isDir,
-      required this.children,
-      required this.timestamp});
+  Stub({
+    required this.name,
+    required this.path,
+    required this.mimeType,
+    required this.isDir,
+    required this.children,
+    required this.timestamp,
+    this.selected = false,
+  });
 
   const Stub.root(this.children)
       : name = "",
         path = "",
         mimeType = null,
         isDir = false,
-        timestamp = 0;
+        timestamp = 0,
+        selected = false;
 
   factory Stub.fromJson(Map<String, dynamic> json) => _$StubFromJson(json);
 
@@ -47,13 +51,12 @@ class Stub extends Equatable {
 
   @override
   List<Object?> get props => [
-    name,
-    path,
-    mimeType,
-    isDir,
-    children,
-    timestamp,
-  ];
+        name,
+        path,
+        mimeType,
+        isDir,
+        children,
+      ];
 }
 
 @CopyWith()

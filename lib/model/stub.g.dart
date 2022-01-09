@@ -24,6 +24,7 @@ class _StubCWProxy {
     String? mimeType,
     String? name,
     String? path,
+    bool? selected,
     int? timestamp,
   }) {
     return Stub(
@@ -32,6 +33,7 @@ class _StubCWProxy {
       mimeType: mimeType ?? _value.mimeType,
       name: name ?? _value.name,
       path: path ?? _value.path,
+      selected: selected ?? _value.selected,
       timestamp: timestamp ?? _value.timestamp,
     );
   }
@@ -47,6 +49,8 @@ class _StubCWProxy {
   Stub name(String name) => this(name: name);
 
   Stub path(String path) => this(path: path);
+
+  Stub selected(bool selected) => this(selected: selected);
 
   Stub timestamp(int timestamp) => this(timestamp: timestamp);
 }
@@ -64,6 +68,7 @@ extension StubCopyWith on Stub {
       mimeType: mimeType == true ? null : this.mimeType,
       name: name,
       path: path,
+      selected: selected,
       timestamp: timestamp,
     );
   }
@@ -199,6 +204,7 @@ Stub _$StubFromJson(Map<String, dynamic> json) => Stub(
               .toList() ??
           [],
       timestamp: json['timestamp'] as int? ?? 0,
+      selected: json['selected'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$StubToJson(Stub instance) => <String, dynamic>{
@@ -208,4 +214,5 @@ Map<String, dynamic> _$StubToJson(Stub instance) => <String, dynamic>{
       'isDir': instance.isDir,
       'children': instance.children,
       'timestamp': instance.timestamp,
+      'selected': instance.selected,
     };

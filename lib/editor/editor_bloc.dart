@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:http/http.dart' as http;
+import 'package:stubbo_ui/data/repository.dart';
+import 'package:stubbo_ui/di/injection.dart';
 import 'package:stubbo_ui/editor/json_formatter.dart';
 
 part 'editor_bloc.g.dart';
 
 class EditorBloc extends Bloc<EditorEvent, EditorState> {
+  final Repository repo = injector.get();
+
   EditorBloc() : super(const EditorState()) {
     on<Init>((event, emit) => init(event));
     on<OnContentFetched>((event, emit) {
       final code = event.filename.endsWith(".json") ? JsonFormatUtil.formatJson(event.code) : event.code;
       emit(state.copyWith(filename: event.filename, code: code));
+    });
+    on<OnSave>((event, emit) async {
+      await repo.update(state.filename, false, body: event.code);
     });
   }
 
@@ -50,4 +57,9 @@ class OnContentFetched extends EditorEvent {
   final String code;
 
   OnContentFetched(this.filename, this.code);
+}
+class OnSave extends EditorEvent {
+  final String code;
+
+  OnSave(this.code);
 }
