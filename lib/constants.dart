@@ -34,4 +34,4 @@ const a11yLightTheme = {
   'strong': TextStyle(fontWeight: FontWeight.bold),
 };
 
-const String baseurl = "http://0.0.0.0:8080/";
+const String baseurl = String.fromEnvironment("baseurl", defaultValue: "http://0.0.0.0:8080/");

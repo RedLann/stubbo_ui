@@ -115,7 +115,7 @@ class _FolderWidgetState extends State<FilesWidget> {
                             ],
                           ),
                         ),
-                        subtitle: Text(baseurl + item.path),
+                        subtitle: Text(baseurl + "view/" + item.path),
                         dense: true,
                         visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                         minLeadingWidth: 0,
