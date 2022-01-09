@@ -24,6 +24,7 @@ class DataError extends Equatable implements Exception {
 enum HttpMethod { PATCH, PUT, DELETE, GET }
 
 class Repository {
+  final baseurl = injector.get<String>(instanceName: "baseurl");
   final ld = injector.get<LocalDatasource>();
 
   Future<R> handleCall<R>(HttpMethod method, String url,

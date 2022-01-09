@@ -20,6 +20,7 @@ class FilesWidget extends StatefulWidget {
 }
 
 class _FolderWidgetState extends State<FilesWidget> {
+  final baseurl = injector.get<String>(instanceName: "baseurl");
   final Repository repo = injector.get();
   String selectedPath = "";
 

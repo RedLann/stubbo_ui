@@ -12,6 +12,7 @@ part 'editor_bloc.g.dart';
 
 class EditorBloc extends Bloc<EditorEvent, EditorState> {
   final Repository repo = injector.get();
+  final baseurl = injector.get<String>(instanceName: "baseurl");
 
   EditorBloc() : super(const EditorState()) {
     on<Init>((event, emit) => init(event));

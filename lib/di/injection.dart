@@ -11,9 +11,15 @@ Future<void> initDi() async {
   await ld.openBox();
   injector.registerSingleton(ld);
   injector.registerFactory(() => Repository());
+  injector.registerSingleton("https://stubbo.flwy.io/", instanceName: "baseurl");
 }
 
-Future<void> initDevEnv() async {
-
+Future<void> initDevDi() async {
+  injector.registerSingleton(GlobalKey<NavigatorState>());
+  final ld = LocalDatasource();
+  await ld.openBox();
+  injector.registerSingleton(ld);
+  injector.registerFactory(() => Repository());
+  injector.registerSingleton("http://0.0.0.0:8080/", instanceName: "baseurl");
 }
 

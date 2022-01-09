@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stubbo_ui/viewer/viewer_page.dart';
 
 import 'editor/editor_page.dart';
 import 'home/home_page.dart';
