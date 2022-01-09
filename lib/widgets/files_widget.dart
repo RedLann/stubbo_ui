@@ -106,7 +106,7 @@ class _FolderWidgetState extends State<FilesWidget> {
                               IconButton(
                                 splashRadius: 20,
                                 tooltip: "Copy link",
-                                onPressed: () => Clipboard.setData(ClipboardData(text: baseurl + item.path)),
+                                onPressed: () => Clipboard.setData(ClipboardData(text: baseurl + "view/" + item.path)),
                                 icon: const Icon(Icons.link),
                                 hoverColor: Colors.transparent,
                                 splashColor: Colors.transparent,
