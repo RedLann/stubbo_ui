@@ -48,6 +48,8 @@ dependencies:
   flutter_html: ^2.2.1
   js: any
   flutter_dropzone: ^3.0.4
+  circular_reveal_animation: ^2.0.0
+  shared_preferences: ^2.0.12
 
 dev_dependencies:
   flutter_test:

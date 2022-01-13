@@ -21,6 +21,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: injector.get<GlobalKey<NavigatorState>>(),
       title: 'Flutter Demo',
       // routes: routesBuilders,
       initialRoute: Routes.home,
