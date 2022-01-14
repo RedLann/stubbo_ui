@@ -11,7 +11,7 @@ class LocalDatasource {
     await Hive.initFlutter();
     Hive.registerAdapter(StubAdapter());
     box = await Hive.openBox("box");
-    await box.clear();
+    // await box.clear();
   }
 
   ValueListenable<Box<Stub>> listenable(String path) {

@@ -13,25 +13,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> with NavigationMixin {
 
   HomeBloc() : super(const HomeState()) {
     on<DirectorySelected>((event, emit) async {
-      print("on: DirectorySelected");
       emit(state.copyWith(selectedDir: event.stub));
     });
     on<FileSelected>((event, emit) async {
-      print("on: FileSelected");
       emit(state.copyWith(selectedFile: event.stub));
     });
     on<OnHover>((event, emit) async {
-      print("on: OnHover");
       if (!state.hovered) {
         emit(state.copyWith(hovered: true));
       }
     });
     on<OnLeave>((event, emit) async {
-      print("on: OnLeave");
       emit(state.copyWith(hovered: false));
     });
     on<OnFileUpload>((event, emit) async {
-      print("on: OnFileUpload");
       // router.showMessageRevealDialog();
       await repo.upload(event);
       router.pop();
