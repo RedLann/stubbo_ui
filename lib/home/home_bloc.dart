@@ -6,8 +6,9 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:stubbo_ui/data/repository.dart';
 import 'package:stubbo_ui/di/injection.dart';
 import 'package:stubbo_ui/model/stub.dart';
+import 'package:stubbo_ui/navigation.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class HomeBloc extends Bloc<HomeEvent, HomeState> with NavigationMixin {
   final Repository repo = injector.get<Repository>();
 
   HomeBloc() : super(const HomeState()) {
@@ -31,8 +32,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
     on<OnFileUpload>((event, emit) async {
       print("on: OnFileUpload");
+      // router.showMessageRevealDialog();
       await repo.upload(event);
+      router.pop();
       repo.refreshPath(event.parentPath);
+      // router.showMessageRevealDialog("Completed!!", duration: const Duration(seconds: 2));
     });
     init();
   }

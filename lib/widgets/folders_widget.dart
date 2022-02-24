@@ -35,7 +35,7 @@ class _FolderWidgetState extends State<FolderWidget> {
       builder: (context, value, child) {
         final item = value.get(widget.path);
         if (item == null) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         final children = item.children.where((element) => element.isDir).toList();
         return Column(

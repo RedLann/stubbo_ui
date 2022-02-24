@@ -6,6 +6,7 @@ import 'package:resizable_widget/resizable_widget.dart';
 import 'package:stubbo_ui/data/repository.dart';
 import 'package:stubbo_ui/di/injection.dart';
 import 'package:stubbo_ui/model/stub.dart';
+import 'package:stubbo_ui/navigation.dart';
 import 'package:stubbo_ui/widgets/files_widget.dart';
 import 'package:stubbo_ui/widgets/folders_widget.dart';
 
@@ -16,14 +17,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with NavigationMixin {
   final HomeBloc _homeBloc = HomeBloc();
 
   final Repository repo = injector.get();
 
   late DropzoneViewController _dropController;
-
-  final UniqueKey _folderKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {

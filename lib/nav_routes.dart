@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'editor/editor_page.dart';
 import 'home/home_page.dart';
+import 'login_page.dart';
 
 class Routes {
   Routes._();
 
   static const String home = "/home";
+  static const String login = "/login";
   static const String editor = "/editor/";
 }
 
@@ -18,6 +20,7 @@ class RouteConfiguration {
   /// take priority.
   static Map<String, Widget Function(dynamic context, String match)> paths = {
     Routes.home: (_, __) => HomePage(),
+    Routes.login: (_, __) => LoginPage(),
     Routes.editor: (context, match) => EditorPage(filename: match)
   };
 
